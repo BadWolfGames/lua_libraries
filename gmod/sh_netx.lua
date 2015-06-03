@@ -10,12 +10,6 @@
 	
 	This library *tries* to make net messages as small as possible for *any* var type.
 
-	You may use this for any purpose as long as:
-	- You don't remove this copyright notice.
-	- You don't claim this to be your own.
-	- You properly credit the author/team (Bad Wolf Games) if you publish your work based on (and/or using) this.
-
-	If you modify the code for any purpose, the above obligations still apply.
 */
 netx = {}
 
