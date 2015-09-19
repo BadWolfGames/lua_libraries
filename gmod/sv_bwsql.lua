@@ -64,6 +64,10 @@ function BWSQL.DestroyInstance()
 	end
 end
 
+function BWSQL.SetModule(mod)
+	BWSQL.Module = mod
+end
+
 //Connect to a MySQL database.
 function sqlMeta:Connect(host, user, pass, db, port, sock)
 	local instance = self.Instance
@@ -90,7 +94,7 @@ function sqlMeta:Connect(host, user, pass, db, port, sock)
 		end
 
 	elseif _module == "mysqloo" then
-		local instance = mysqloo.connect(host, user, pass, db, port)
+		local instance = mysqloo.connect(host, user, pass, db, port, sock)
 
 		function instance:onConnected()
 			hook.Call("BWSQL_Connected")
@@ -105,6 +109,9 @@ function sqlMeta:Connect(host, user, pass, db, port, sock)
 		end
 
 		instance:connect()
+
+	elseif _module == "sqlite" then
+		MsgN("[SQLite] Using SQLite.")
 	end
 end
 
@@ -138,7 +145,7 @@ function sqlMeta:Disconnect()
 		self:Reset()
 	
 	elseif _module == "mysqloo" then
-		self:Reset() //Not sure how MySQLoo handles disconnecting, so i'd avoid it with that module.
+		self:Reset() //Not sure how MySQLoo handles disconnecting, so I'd avoid it.
 		return
 
 	elseif _module =="sqlite" then
@@ -261,6 +268,11 @@ function sqlMeta:Queue(query, callback)
 	self.Queue[#self.Queue+1] = {query, callback}
 end
 
+//Clear the queue.
+function sqlMeta:ClearQueue()
+	self.Queue = {}
+end
+
 //Commit queued queries.
 function sqlMeta:Commit()
 	if !self:ConnectionStatus() then return; end
@@ -359,7 +371,7 @@ end
 function sqlMeta:RepairTable(tbl)
 	if !self:ConnectionStatus() then return; end
 
-	self.Instance:SafeQuery("REPAIR TABLE `"..tbl.."`", self:RepairCallback)
+	self:SafeQuery("REPAIR TABLE `"..tbl.."`", self:RepairCallback)
 end
 
 //Logging function
@@ -384,15 +396,4 @@ end
 //Returns the log table.
 function sqlMeta:ReadLog()
 	return self.Log
-end
-
-//Backwards compatibility
-tmysql.query = function(qry, callback, a, b)
-	if !sqlMeta.Status then return; end
-	sqlMeta:EasyQuery(qry, callback)
-end
-
-tmysql.escape = function(str)
-	if !sqlMeta.Status then return; end
-	sqlMeta:Escape(str)
 end
