@@ -17,7 +17,7 @@
 			[2] = Entity(26),
 		}
 	}
-	
+
 	the above table should turn into something like this:
 	{i0;sstring;sstring;i15.6;i1;i625;sv;v255,255,255;sc;c255,255,255;sarray;{i1;spew\;;i2;e26}}
 
@@ -27,7 +27,7 @@
 	This work is license under Apache License 2.0(http://www.apache.org/licenses/LICENSE-2.0)
 
 	Information:
-	This is some script to turn tables into strings so they can be stored in a database. 
+	This is some script to turn tables into strings so they can be stored in a database.
 	I discontinued this because it was just a quick little thing I wanted to try to make myself.
 	But it should work as of now; it was tested with Lua 5.2.
 
@@ -141,7 +141,7 @@ c[decode] = {
 	end,
 }
 
-con = {}
+local con = {}
 function con.encode(tbl)
 	return c.encode["table"](tbl)
 end
@@ -153,23 +153,4 @@ function con.decode(s)
 	return b
 end
 
---uncomment to TEST
-local test = {
-	[0] = "string",
-	["string"] = 15.6,
-	[1] = 625,
-	['v'] = Vector(1.1, 2.2, 3.3),
-	['c'] = Color(255, 255, 255),
-	["array"] = {
-		[1] = "pew;",
-		[2] = Entity(26),
-		["bla"] = {
-			[1] = 1,
-			[2] = "test",
-		}
-	}
-}
-	
-local e_c = con.encode(test)
-print(e_c)
-local d_c = con.decode(e_c)
+return con

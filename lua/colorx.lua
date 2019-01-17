@@ -1,7 +1,7 @@
 --[[
-	 _____           _            
-	/  __ \         | |           
-	| /  \/_   _ ___| |_ ___  ___ 
+	 _____           _
+	/  __ \         | |
+	| /  \/_   _ ___| |_ ___  ___
 	| |   | | | / __| __/ _ \/ __|
 	| \__/\ |_| \__ \ || (_) \__ \
 	 \____/\__,_|___/\__\___/|___/
@@ -10,7 +10,7 @@
 
 	Color X Library - Simple color conversion library.
 --]]
-colorx = {}
+local colorx = {}
 local type = type
 local fmod, floor = math.fmod, math.floor
 local lshift, rshift, band = bit32.lshift, bit32.rshift, bit32.band
@@ -35,7 +35,7 @@ end
 
 --Convert RGB to Hex (0x000000)
 function colorx.rgbtohex(r, g, b)
-	if type(r) == "table" then 
+	if type(r) == "table" then
 		return colorx.rgbtohex(colorx.unpackcolor(r))
 	end
 	return lshift(r, 16) + lshift(g, 8) + lshift(b, 0)
@@ -67,3 +67,5 @@ function colorx.hextorgba(hex)
 
 	return r, g, b, a
 end
+
+return colorx
