@@ -1,7 +1,7 @@
 local utilx = {}
 
 function utilx.CheckType(arg, tp)
-	if !arg or type(arg) != tp then
+	if not arg or type(arg) ~= tp then
 		return false
 	else
 		return arg
@@ -10,7 +10,7 @@ end
 
 --http://lua-users.org/wiki/SwitchStatement
 function switch(t)
-  t.case = function (self,x)
+  t.case = function(self,x)
     local f=self[x] or self.default
     if f then
       if type(f)=="function" then
@@ -57,7 +57,7 @@ function utilx.PrintTableEx(tbl, d)
 		if type(t) == "table" then
 			tblPrint("=> ["..tostring(i).."] table {")
 			utilx.PrintTableEx(t, 5)
-			tblPrint("\t\t}", ply)
+			tblPrint("\t\t}")
 		else
 			if d then
 				local f = 0
@@ -73,6 +73,7 @@ function utilx.PrintTableEx(tbl, d)
 				out = out.."=> [%s] %s: %s"
 				tblPrint( out:format(i, type(t),tostring(t)))
 			end
+
 			out = ""
 		end
 	end
